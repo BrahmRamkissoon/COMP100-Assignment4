@@ -1,7 +1,7 @@
 ﻿// Filename: Program.cs
 // Author: Brahm Ramkissoon
 // Created Date  (dd/mm/yyyy): 13/10/2015
-// Description: Dice Rolling App
+// Description: Assignment 4 Part 1: Dice Rolling App
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,34 +38,34 @@ namespace Assignment4
                         frequency[0] += 1; // increment the 2s counter
                         break;
                     case 3:
-                        frequency [1] += 1; // increment the 2s counter
+                        frequency [1] += 1; // increment the 3s counter
                         break;
                     case 4:
-                        frequency [2] += 1; // increment the 2s counter
+                        frequency [2] += 1; // increment the 4s counter
                         break;
                     case 5:
-                        frequency [3] += 1; // increment the 2s counter
+                        frequency [3] += 1; // increment the 5s counter
                         break;
                     case 6:
-                        frequency [4] += 1; // increment the 2s counter
+                        frequency [4] += 1; // increment the 6s counter
                         break;
                     case 7:
-                        frequency [5] += 1; // increment the 2s counter
+                        frequency [5] += 1; // increment the 7s counter
                         break;
                     case 8:
-                        frequency [6] += 1; // increment the 2s counter
+                        frequency [6] += 1; // increment the 8s counter
                         break;
                     case 9:
-                        frequency [7] += 1; // increment the 2s counter
+                        frequency [7] += 1; // increment the 9s counter
                         break;
                     case 10:
-                        frequency [8] += 1; // increment the 2s counter
+                        frequency [8] += 1; // increment the 10s counter
                         break;
                     case 11:
-                        frequency [9] += 1; // increment the 2s counter
+                        frequency [9] += 1; // increment the 11s counter
                         break;
                     case 12:
-                        frequency [10] += 1; // increment the 2s counter
+                        frequency [10] += 1; // increment the 12s counter
                         break;
                     
                 } // end switch
