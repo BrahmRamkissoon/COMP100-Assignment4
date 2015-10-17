@@ -1,37 +1,40 @@
-﻿// Filename: Program.cs
-// Author: Brahm Ramkissoon
-// Created Date  (dd/mm/yyyy): 14/10/2015
-// Description: Assignment 4 Part 2: Airline reservations System
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Part2
+namespace Part2b
 {
     class Program
     {
         static void Main ( string [] args )
         {
+            const int FIRST_CLASS_SEAT_START = 1;
+            const int FIRST_CLASS_SEAT_LIMIT = 5;
+            const int ECONOMY_SEAT_START = 6;
+            const int ECONOMY_CLASS_SEAT_LIMIT = 10;
+
             const int MAX_SEATS_PER_SECTION = 5;
             const int MAX_SEATS = 10;
 
-            int prompt = 0;                     // Sentinel value for menu
-            bool [] seatChart = new bool [11];  // seating chart of plane, ignore 0 index
-            int seatNum = 0;                    // subscript for seats[]
-            string bookNextSection = "";        // accept user input if they need to book from another section
-            int totalFirstClassSeatsBooked = 0; // count of seats booked in First Class
-            int totalEconomySeatsBooked = 0;    // count of seats book in Economy 
-            int totalSeatsBooked =
-                totalEconomySeatsBooked
-                + totalFirstClassSeatsBooked;   // count of seats booked in plane
+            int prompt = 0; // Sentinel value for menu
+            bool [] seatChart = new bool [11];    // seating chart of plane, ignore 0 index
+            int seatNum = 1;  // subscript for seats[]
+            string bookNextSection = "";
+
+
+            int totalFirstClassSeatsBooked = 0;
+            int totalEconomyClassSeatsBooked = 0;
+            int totalSeatsBooked = totalEconomyClassSeatsBooked + totalFirstClassSeatsBooked;
+
+            bool seatBooked = false;
 
 
             // Initialize all seats to false, empty
-            for ( seatNum = 1 ; seatNum < seatChart.Length ; seatNum++ )
+            for ( int index = 1 ; index < seatChart.Length ; index++ )
             {
-                seatChart [seatNum] = false;
+                seatChart [index] = false;
             }
 
             // Run Menu
@@ -69,10 +72,10 @@ namespace Part2
                         }
 
                         // iterate through first class seats
-                        for ( seatNum = 1 ; seatNum <= 5 ; seatNum++ )
+                       for ( seatNum = 1 ; seatNum <= 5 ; seatNum++ )
                         {
                             // if this seat is empty and booked first class seats are less than first class limit
-                            if ( seatChart [seatNum] == false && totalFirstClassSeatsBooked <= MAX_SEATS_PER_SECTION )
+                            if ( seatChart [seatNum] == false && totalFirstClassSeatsBooked <= FIRST_CLASS_SEAT_LIMIT )
                             {
                                 Console.WriteLine("Empty seat found, press enter to continue booking...");
                                 Console.ReadKey();
@@ -82,29 +85,28 @@ namespace Part2
                                 break;
                             }
 
-                            if ( seatChart [seatNum] && totalFirstClassSeatsBooked == MAX_SEATS_PER_SECTION )
+                            if ( seatChart [seatNum] && totalFirstClassSeatsBooked == FIRST_CLASS_SEAT_LIMIT)
                             {
-                                Console.WriteLine("\nAll First class seats are booked");
-                                Console.WriteLine("");
-                                Console.WriteLine("++++++++++++++++++++++++++++++++++++++++++");
-                                Console.WriteLine("\nWould you like to book an Economy seat? ");
-                                Console.WriteLine("Press 1. Yes");
-                                Console.WriteLine("Press 2. No ");
-                                Console.WriteLine("++++++++++++++++++++++++++++++++++++++++++");
-
+                                Console.WriteLine( "\nAll first class seats are booked" );
+                                Console.WriteLine( "" );
+                                Console.WriteLine( "++++++++++++++++++++++++++++++++++++++++++" );
+                                Console.WriteLine( "\nWould you like to book an Economy seat? " );
+                                Console.WriteLine( "Press 1. Yes");
+                                Console.WriteLine( "Press 2. No ");
+                                Console.WriteLine( "++++++++++++++++++++++++++++++++++++++++++" );
+                                
                                 bookNextSection = Console.ReadLine();
 
-                                if ( bookNextSection == "Y" )
+                                if (bookNextSection == "Y")
                                 {
                                     goto case 2;
                                 }
-                                Console.WriteLine("Next flight leaving in 3 hours.");
+                                Console.WriteLine( "Next flight leaving in 3 hours." );
                             } // end if
                         } // end for
-                        PressKey();
-                        break; // end case 1
+                    break; // end case 1
 
-                    case 2:
+                    case 2:/*
                         // Check for empty seats in plane
                         if ( totalSeatsBooked != MAX_SEATS )
                         {
@@ -117,41 +119,36 @@ namespace Part2
                             break;
                         }
 
-                        // iterate through Economy seats
-                        for ( seatNum = 6 ; seatNum <= 10 ; seatNum++ )
+                        Console.WriteLine("\nChecking for available seats...");
+
+                        while ( prompt == 2 )
                         {
-                            // if this seat is empty and booked first class seats are less than first class limit
-                            if ( seatChart [seatNum] == false && totalEconomySeatsBooked <= MAX_SEATS_PER_SECTION )
+                            if ( seatChart [seatNum] == false
+                                && seatNum >= ECONOMY_SEAT_START
+                                && seatNum <= ECONOMY_CLASS_SEAT_LIMIT )
                             {
-                                Console.WriteLine("Empty seat found, press enter to continue booking...");
-                                Console.ReadKey();
                                 seatChart [seatNum] = true;
-                                Console.WriteLine($"\nSeat Number: {seatNum} is booked");
-                                totalEconomySeatsBooked++;
-                                break;
+
+                                Console.WriteLine($"\nAn economy class seat has been assigned: {bookedSeat}");
                             }
-
-                            if ( seatChart [seatNum] && totalEconomySeatsBooked == MAX_SEATS_PER_SECTION )
+                            else
                             {
-                                Console.WriteLine("\nAll economy seats are booked");
-                                Console.WriteLine("");
-                                Console.WriteLine("++++++++++++++++++++++++++++++++++++++++++");
-                                Console.WriteLine("\nWould you like to book a First Class seat? ");
-                                Console.WriteLine("Press 1. Yes");
-                                Console.WriteLine("Press 2. No ");
-                                Console.WriteLine("++++++++++++++++++++++++++++++++++++++++++");
-
+                                Console.WriteLine("\nAll economy class seats are booked");
+                                Console.WriteLine("\nWould you like to book a First Class seat? (Press Y or N): ");
                                 bookNextSection = Console.ReadLine();
-
                                 if ( bookNextSection == "Y" )
                                 {
-                                    goto case 1;
+                                    prompt = 1;
                                 }
-                                Console.WriteLine("Next flight leaving in 3 hours.");
-                            } // end if
-                        } // end for
+                                else
+                                {
+                                    Console.WriteLine("Next flight leaving in 3 hours.");
+                                }
+                            }
+                        }
+
                         PressKey();
-                        break; // end case 2
+                        break; */
                     case 3:
                         Console.WriteLine("\nThank you! See you soon!");
                         PressKey();
@@ -163,6 +160,10 @@ namespace Part2
             } // end while
         } // end main
 
+        public static void CheckSeat ()
+        {
+
+        }
         public static void PressKey ()
         {
             Console.WriteLine();
